@@ -1,5 +1,4 @@
 reportlab
 google-generativeai
-base64,os
-io
+streamlit
 google-auth
