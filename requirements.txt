@@ -1,4 +1,4 @@
 reportlab
-google.generativeai
+google-generativeai
 base64,os
 io
