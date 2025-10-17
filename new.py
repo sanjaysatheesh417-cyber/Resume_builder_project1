@@ -10,7 +10,6 @@ from PIL import Image
 from textwrap import wrap
 import base64,os
 import streamlit.components.v1 as components
-from pdf2image import convert_from_bytes
 import re
 
 @st.cache_resource
