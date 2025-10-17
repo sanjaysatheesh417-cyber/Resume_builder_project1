@@ -11,6 +11,7 @@ from textwrap import wrap
 import base64,os
 import streamlit.components.v1 as components
 from pdf2image import convert_from_bytes
+import re
 
 @st.cache_resource
 def load_template_images():
@@ -44,26 +45,27 @@ genai.configure(api_key="AIzaSyBC0S3GhHuPbigi7fbgZERMEpUoXyi_vno")
 @st.cache_data(ttl=3600)
 def enhance_section(section_name, text):
     prompt = (
-        f"Please rewrite the following {section_name} section to be professional, clear, concise, and "
-        "suitable for a resume. Provide exactly three distinct options for how this section could be written, separated clearly."
+        f"Rewrite the following {section_name} in three different professional, clear, concise ways for a resume. "
+        "List the three options clearly, each starting on a new line. Do not include instructions, only the options."
         f"\n\nOriginal text:\n{text.strip()}"
     )
-    model = genai.GenerativeModel('gemini-2.5-pro')  # or your enabled model
+    model = genai.GenerativeModel('gemini-2.5-pro')
     try:
         response = model.generate_content(prompt)
-        # Split response into multiple options assuming AI separates options with line breaks or numbering
-        raw_options = response.text.strip()
-        # Simple split by line breaks that are starting new options, filter empty lines
-        options = [opt.strip("- \n") for opt in raw_options.split("\n") if opt.strip()]
-        # If too many options returned, trim to exactly 3
-        if len(options) > 3:
-            options = options[:3]
-        if len(options) == 0:
-            options = [text]  # fallback
-        return options
+        raw = response.text.strip()
+        # Extract options that are either numbered or start a new line
+        opts = re.findall(r'^\s*(?:\d+\.|-)\s*(.+)$', raw, re.MULTILINE)
+        # As a fallback, just take up to three most substantial non-empty lines
+        if not opts:
+            opts = [line.strip() for line in raw.split("\n") if line.strip()]
+        opts = [o for o in opts if len(o) > 0][:3]
+        if not opts:
+            opts = [text]
+        return opts
     except Exception as e:
         st.warning(f"AI enhancement failed: {e}")
         return [text]
+
 
 st.set_page_config(layout="wide")
 st.markdown(
@@ -92,7 +94,7 @@ def wrap_text(text, width):
         lines.extend(wrap(line.strip(), width))
     return lines
 
-def template_template1(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template0(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     # Your existing template_template1 code here, unchanged
     width, height = A4
     margin_bottom = 50
@@ -121,7 +123,7 @@ def template_template1(c, name, email, phone, summary, education, skills, experi
             c.drawString(40, sidebar_y, f"• {title}")
             sidebar_y -= 18
             c.setFont("Helvetica", 10)
-            for line in wrap_text(content, 32):
+            for line in wrap_text(content, 22):
                 c.drawString(50, sidebar_y, f"- {line}")
                 sidebar_y -= 14
             sidebar_y -= 10
@@ -221,7 +223,7 @@ def template_template1(c, name, email, phone, summary, education, skills, experi
     draw_main_section("EDUCATION", education)
     draw_footer(page_number)
 
-def template_template2(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template1(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     margin_bottom = 50
     content_x = 55
@@ -298,8 +300,9 @@ def template_template2(c, name, email, phone, summary, education, skills, experi
     c.setFont("Helvetica", 10)
     c.setFillColor(colors.black)
     for line in education.split('\n'):
-        c.drawString(content_x + 10, y, line)
-        y -= 12
+        for val in wrap_text(line, 50):
+            c.drawString(content_x + 10, y, val)
+            y -= 12
     y -= 8
 
     # Certificates, Awards, Interests
@@ -312,12 +315,13 @@ def template_template2(c, name, email, phone, summary, education, skills, experi
             c.setFont("Helvetica", 10)
             c.setFillColor(colors.black)
             for val in data.split('\n'):
-                c.drawString(content_x + 10, y, f"- {val}")
-                y -= 12
+                for line in wrap_text(val, 75):
+                    c.drawString(content_x + 10, y, f"- {line}")
+                    y -= 12
             y -= 8
     y = height - 60
 
-def template_template3(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template2(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     y = height - 60
     margin_left = 45
@@ -360,9 +364,10 @@ def template_template3(c, name, email, phone, summary, education, skills, experi
     y -= 13
     c.setFont("Helvetica", 10)
     for exp in experience.split('\n'):
-        c.drawString(margin_left + 8, y, f"- {exp}")
-        y -= 11
-    y -= section_gap
+        for line in wrap_text(exp, 90):  # use column width, commonly 32~80
+            c.drawString(margin_left + 10, y, f"- {line}")
+            y -= 12
+    y -= 8
 
     # Education, skills, languages one after another
     for title, field in [('Education', education), ('Skills', skills), ('Languages', languages)]:
@@ -372,8 +377,9 @@ def template_template3(c, name, email, phone, summary, education, skills, experi
             y -= 12
             c.setFont("Helvetica", 10)
             for thing in field.split('\n'):
-                c.drawString(margin_left + 8, y, f"- {thing}")
-                y -= 11
+                for line in wrap_text(thing, 50):  # use column width, commonly 32~80
+                    c.drawString(margin_left + 10, y, f"- {line}")
+                    y -= 12
             y -= 8
 
     # Certificates, Awards, Interests
@@ -384,11 +390,12 @@ def template_template3(c, name, email, phone, summary, education, skills, experi
             y -= 12
             c.setFont("Helvetica", 10)
             for thing in field.split('\n'):
-                c.drawString(margin_left + 8, y, f"- {thing}")
-                y -= 11
+                for line in wrap_text(thing, 50):  # use column width, commonly 32~80
+                    c.drawString(margin_left + 10, y, f"- {line}")
+                    y -= 12
             y -= 8
 
-def template_template4(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template3(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     sidebar_width = width * 0.32
     content_x = sidebar_width + 20
@@ -413,8 +420,9 @@ def template_template4(c, name, email, phone, summary, education, skills, experi
             sb_y -= 14
             c.setFont("Helvetica", 9)
             for val in field.split('\n'):
-                c.drawString(46, sb_y, f"- {val}")
-                sb_y -= 12
+                for line in wrap_text(val, 25):
+                    c.drawString(46, sb_y, f"- {line}")
+                    sb_y -= 12
             sb_y -= 8
             c.setFont("Helvetica-Bold", 10)
 
@@ -443,11 +451,12 @@ def template_template4(c, name, email, phone, summary, education, skills, experi
             y -= 13
             c.setFont("Helvetica", 10)
             for val in field.split('\n'):
-                c.drawString(content_x + 8, y, f"- {val}")
-                y -= 11
+                for line in wrap_text(val, 80):
+                    c.drawString(content_x + 8, y, f"- {line}")
+                    y -= 11
             y -= 8
 
-def template_template5(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template4(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     y = height - 42
 
@@ -476,8 +485,9 @@ def template_template5(c, name, email, phone, summary, education, skills, experi
     c.setFont("Helvetica", 10)
     c.setFillColor(colors.black)
     for line in education.split('\n'):
-        c.drawString(52, y, f"- {line}")
-        y -= 12
+        for val in wrap_text(line, 50):
+            c.drawString(52, y, f"- {val}")
+            y -= 12
     y -= 7
 
     # Then summary, then the rest
@@ -490,11 +500,12 @@ def template_template5(c, name, email, phone, summary, education, skills, experi
             c.setFont("Helvetica", 10)
             c.setFillColor(colors.black)
             for val in field.split('\n'):
-                c.drawString(52, y, f"- {val}")
-                y -= 11
+                for line in wrap_text(val, 80):
+                    c.drawString(52, y, f"- {line}")
+                    y -= 11
             y -= 7
 
-def template_template6(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template5(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     sidebar_width = 90
     content_x = sidebar_width + 34
@@ -520,8 +531,9 @@ def template_template6(c, name, email, phone, summary, education, skills, experi
             sb_y -= 12
             c.setFont("Helvetica", 9)
             for val in field.split('\n'):
-                c.drawString(22, sb_y, f"- {val}")
-                sb_y -= 11
+                for line in wrap_text(val, 20):
+                    c.drawString(22, sb_y, f"- {line}")
+                    sb_y -= 11
             sb_y -= 10
             c.setFont("Helvetica-Bold", 10)
     c.setFont("Helvetica-Bold", 10)
@@ -553,11 +565,12 @@ def template_template6(c, name, email, phone, summary, education, skills, experi
             c.setFont("Helvetica", 10)
             c.setFillColor(colors.black)
             for val in field.split('\n'):
-                c.drawString(content_x + 8, y, f"- {val}")
-                y -= 11
+                for line in wrap_text(val, 80):
+                    c.drawString(content_x + 8, y, f"- {line}")
+                    y -= 11
             y -= 11
 
-def template_template7(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template6(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     y = height - 55
 
@@ -594,12 +607,13 @@ def template_template7(c, name, email, phone, summary, education, skills, experi
             c.setFont("Helvetica", 10)
             c.setFillColor(colors.black)
             for val in field.split('\n'):
-                c.drawString(120, y, f"- {val}")
-                y -= 11
+                for line in wrap_text(val, 80):
+                    c.drawString(120, y, f"- {line}")
+                    y -= 11
             y -= 7
 
 
-def template_template8(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template7(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     sidebar_width = 98
     content_x = sidebar_width + 38
@@ -621,8 +635,9 @@ def template_template8(c, name, email, phone, summary, education, skills, experi
             sb_y -= 13
             c.setFont("Helvetica", 9)
             for val in field.split('\n'):
-                c.drawString(26, sb_y, val)
-                sb_y -= 11
+                for line in wrap_text(val, 20):
+                    c.drawString(26, sb_y, line)
+                    sb_y -= 11
             sb_y -= 10
             c.setFont("Helvetica-Bold", 11)
 
@@ -650,15 +665,18 @@ def template_template8(c, name, email, phone, summary, education, skills, experi
             c.setFont("Helvetica", 10)
             c.setFillColor(colors.black)
             for val in field.split('\n'):
-                c.drawString(content_x + 8, y, val)
-                y -= 11
+                for line in wrap_text(val, 80):
+                    c.drawString(content_x + 8, y, line)
+                    y -= 11
             y -= 13
 
 def generate_pdf_resume(name,email,phone,summary,education,skills,experience,languages,certificates,awards,interests,profile_photo_bytes,template):
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
-    template = template.lower()  # Ensure lowercase for matching function names
-    if template == "template1":
+    template = f"template{selected_template}".lower() # Ensure lowercase for matching function names
+    if template == "template0":
+        template_template0(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
+    elif template == "template1":
         template_template1(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
     elif template == "template2":
         template_template2(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
@@ -672,8 +690,6 @@ def generate_pdf_resume(name,email,phone,summary,education,skills,experience,lan
         template_template6(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
     elif template == "template7":
         template_template7(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
-    elif template == "template8":
-        template_template8(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
     else:
         c.drawString(100, 800, f"Resume for {name}")
         c.drawString(100, 780, f"Template '{template}' not found. Using basic layout.")
@@ -682,26 +698,35 @@ def generate_pdf_resume(name,email,phone,summary,education,skills,experience,lan
     return buffer
 
 def ai_enhance_ui(field_key, field_label, height=150):
-    # Show current input text
     input_val = st.session_state.get(field_key, "")
     cand_key = f"{field_key}_ai_options"
 
-    # Text area for input, updated from session state
-    input_val = st.text_area(field_label, value=input_val, height=height, key=f"{field_key}_input")
+    # Text area shows current value ONLY for editing
+    st.text_area(field_label, value=input_val, height=height, key=f"{field_key}_input")
 
+    # Enhance Button
     if st.button(f"Enhance with AI ({field_label})"):
         with st.spinner("Enhancing..."):
             options = enhance_section(field_label, input_val)
             st.session_state[cand_key] = options
 
+    # Radio for AI options and Apply Selection
+    applied_key = f"{field_key}_applied"
     if cand_key in st.session_state:
-        selected_option = st.radio(f"Choose your enhanced {field_label}:", st.session_state[cand_key], key=f"{field_key}_radio")
+        selected_option = st.radio(
+            f"Choose your enhanced {field_label}:",
+            st.session_state[cand_key],
+            key=f"{field_key}_radio"
+        )
         if st.button(f"Apply selection ({field_label})"):
             st.session_state[field_key] = selected_option
-            # Update input text to match selected option
-            st.session_state[f"{field_key}_input"] = selected_option
-            # Clear options after applying
+            st.session_state[applied_key] = True
             del st.session_state[cand_key]
+
+    # Success indicator (shows for one run after Apply)
+    if st.session_state.get(f"{field_key}_applied", False):
+        st.success(f"Changes applied to {field_label}.")
+        del st.session_state[f"{field_key}_applied"]
 
 # Streamlit UI
 st.title("Resume Builder")
@@ -712,9 +737,9 @@ with tab1:
     profile_photo_bytes = None
     if uploaded_photo is not None:
         profile_photo_bytes = uploaded_photo.getvalue()
-    name = st.text_input("Name")
-    email = st.text_input("Email")
-    phone = st.text_input("Phone")
+    name = st.text_input("Name", value=st.session_state.get("name", ""), key="name")
+    email = st.text_input("Email", value=st.session_state.get("email", ""), key="email")
+    phone = st.text_input("Phone", value=st.session_state.get("phone", ""), key="phone")
 
 with tab2:
     ai_enhance_ui("summary", "Summary", height=150)
@@ -765,12 +790,25 @@ with tab7:
 with tab8:
     # Always render the Download button; validate on click
     if st.button("Generate PDF"):
+        name = st.session_state.get("name", "")
+        email = st.session_state.get("email", "")
+        phone = st.session_state.get("phone", "")
+        summary = st.session_state.get("summary", "")
+        education = st.session_state.get("education", "")
+        skills = st.session_state.get("skills", "")
+        experience = st.session_state.get("experience", "")
+        languages = st.session_state.get("languages", "")
+        certificates = st.session_state.get("certificates", "")
+        awards = st.session_state.get("awards", "")
+        interests = st.session_state.get("interests", "")
+        profile_photo_bytes = st.session_state.get("profile_photo_bytes", None)
+        selected_template = st.session_state.get("selected_template", 0)
         if not (name and email and phone):
             st.error("Name, Email, and Phone are required to generate the PDF.")
         else:
             buf = generate_pdf_resume(
                 name, email, phone, summary, education, skills, experience,
-                languages, certificates, awards, interests, profile_photo_bytes, selectedtemplate
+                languages, certificates, awards, interests, profile_photo_bytes, selected_template
             )
             st.success("PDF ready. Click to download.")
             st.download_button(
