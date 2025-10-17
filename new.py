@@ -5,8 +5,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.utils import ImageReader
 import io
-from transformers import pipeline
-import torch
+import google.generativeai as genai
 from PIL import Image
 from textwrap import wrap
 import base64,os
@@ -39,27 +38,32 @@ for k, v in defaults.items():
     if k not in st.session_state:
         st.session_state[k] = v
 
+genai.configure(api_key="AIzaSyBC0S3GhHuPbigi7fbgZERMEpUoXyi_vno")
 @st.cache_resource(show_spinner="Loading AI model...")
-def load_paraphraser():
-    try:
-        return pipeline("text2text-generation", model="google/flan-t5-base", device="cpu")
-    except Exception as e:
-        st.error(f"AI model failed to load: {e}")
-        return None
-
-paraphraser = load_paraphraser()
 
 @st.cache_data(ttl=3600)
-def enhance_section(section, value):
-    if paraphraser is None:
-        return value
+def enhance_section(section_name, text):
+    prompt = (
+        f"Please rewrite the following {section_name} section to be professional, clear, concise, and "
+        "suitable for a resume. Provide exactly three distinct options for how this section could be written, separated clearly."
+        f"\n\nOriginal text:\n{text.strip()}"
+    )
+    model = genai.GenerativeModel('gemini-2.5-pro')  # or your enabled model
     try:
-        prompt = f"Correct grammar and rewrite this {section} to sound professional, polished, and concise:\n{value.strip()}"
-        out = paraphraser(prompt, max_length=128, num_return_sequences=1)
-        return out[0]["generated_text"] if out else value
+        response = model.generate_content(prompt)
+        # Split response into multiple options assuming AI separates options with line breaks or numbering
+        raw_options = response.text.strip()
+        # Simple split by line breaks that are starting new options, filter empty lines
+        options = [opt.strip("- \n") for opt in raw_options.split("\n") if opt.strip()]
+        # If too many options returned, trim to exactly 3
+        if len(options) > 3:
+            options = options[:3]
+        if len(options) == 0:
+            options = [text]  # fallback
+        return options
     except Exception as e:
-        st.warning(f"Enhancement failed for {section}: {e}")
-        return value
+        st.warning(f"AI enhancement failed: {e}")
+        return [text]
 
 st.set_page_config(layout="wide")
 st.markdown(
@@ -677,6 +681,28 @@ def generate_pdf_resume(name,email,phone,summary,education,skills,experience,lan
     buffer.seek(0)
     return buffer
 
+def ai_enhance_ui(field_key, field_label, height=150):
+    # Show current input text
+    input_val = st.session_state.get(field_key, "")
+    cand_key = f"{field_key}_ai_options"
+
+    # Text area for input, updated from session state
+    input_val = st.text_area(field_label, value=input_val, height=height, key=f"{field_key}_input")
+
+    if st.button(f"Enhance with AI ({field_label})"):
+        with st.spinner("Enhancing..."):
+            options = enhance_section(field_label, input_val)
+            st.session_state[cand_key] = options
+
+    if cand_key in st.session_state:
+        selected_option = st.radio(f"Choose your enhanced {field_label}:", st.session_state[cand_key], key=f"{field_key}_radio")
+        if st.button(f"Apply selection ({field_label})"):
+            st.session_state[field_key] = selected_option
+            # Update input text to match selected option
+            st.session_state[f"{field_key}_input"] = selected_option
+            # Clear options after applying
+            del st.session_state[cand_key]
+
 # Streamlit UI
 st.title("Resume Builder")
 tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(["Personal Info","Summary","Academics","Professional Info","Achievements","Interests","Choose Template","Submission"])
@@ -691,41 +717,22 @@ with tab1:
     phone = st.text_input("Phone")
 
 with tab2:
-    def update_summary():
-        st.session_state['summary'] = st.session_state['summary_input']
-
-    summary_input = st.text_area("Summary", value=st.session_state.get("summary", ""),height=150,key='summary_input', on_change=update_summary)
+    ai_enhance_ui("summary", "Summary", height=150)
 
 with tab3:
-    def update_education():
-        st.session_state['education'] = st.session_state['education_input']
-
-    def update_languages():
-        st.session_state['languages'] = st.session_state['languages_input']
-
-    education_input = st.text_area("Education", value=st.session_state.get("education", ""),height=100,key='education_input', on_change=update_education)
-    languages_input = st.text_area("Languages",  value=st.session_state.get("languages", ""), height=75,key='languages_input', on_change=update_languages)
+    ai_enhance_ui("education", "Education", height=150)
+    ai_enhance_ui("languages", "Languages", height=100)
 
 with tab4:
-    def update_experience():
-        st.session_state['experience'] = st.session_state['experience_input']
-    def update_skills():
-            st.session_state['skills'] = st.session_state['skills_input']
-    experience_input = st.text_area("Experience", value=st.session_state.get("experience", ""), height=150,key='experience_input', on_change=update_experience)
-    skills_input = st.text_area("Skills", value=st.session_state.get("skills", ""),height=100,key='skills_input', on_change=update_skills)
+    ai_enhance_ui("experience", "Experience", height=100)
+    ai_enhance_ui("skills", "Skills", height=100)
 
 with tab5:
-    def update_certificates():
-            st.session_state['certificates'] = st.session_state['certificates_input']
-    def update_awards():
-            st.session_state['awards'] = st.session_state['awards_input']
-    certificates_input = st.text_area("Certificates", value=st.session_state.get("certificates", ""),height=75,key='certificates_input', on_change=update_certificates)
-    awards_input = st.text_area("Awards", value=st.session_state.get("awards", ""),height=75,key='awards_input', on_change=update_summary)
+    ai_enhance_ui("certificates", "Certificates", height=100)
+    ai_enhance_ui("awards", "Awards", height=100)
 
 with tab6:
-    def update_interests():
-            st.session_state['interests'] = st.session_state['interests_input']
-    interests_input = st.text_area("Interests", value=st.session_state.get("interests", ""),height=75,key='interests_input', on_change=update_interests)
+    ai_enhance_ui("interests", "Interests", height=100)
 
 with tab7:
     if "selected_template" not in st.session_state:
@@ -756,58 +763,15 @@ with tab7:
         st.image(f"data:image/png;base64,{template_images[sel_idx]}", width="stretch")
 
 with tab8:
-    st.markdown("### Enhance and Export")
-
-    # Always render the Enhance button
-    if st.button("Enhance Resume with AI"):
-        with st.spinner("Enhancing..."):
-            fields = ['name', 'summary', 'education', 'experience', 'skills', 'languages', 'certificates', 'awards',
-                      'interests']
-            for f in fields:
-                val = st.session_state.get(f, '')
-                if val.strip():
-                    st.session_state[f] = enhance_section(f, val)
-        st.success("Enhanced. Preview below.")
-
-    # Build current values
-    name = st.session_state['name']
-    email = st.session_state['email']
-    phone = st.session_state['phone']
-    summary = st.session_state['summary']
-    education = st.session_state['education']
-    experience = st.session_state['experience']
-    skills = st.session_state['skills']
-    languages = st.session_state['languages']
-    certificates = st.session_state['certificates']
-    awards = st.session_state['awards']
-    interests = st.session_state['interests']
-    sel_idx = st.session_state['selected_template']
-    selectedtemplate = template_names[sel_idx].lower()
-
-    # Always try to generate preview PDF; if required fields missing, show message but keep buttons visible
-    buf = None
-    try:
-        buf = generate_pdf_resume(
-            name, email, phone, summary, education, skills, experience,
-            languages, certificates, awards, interests, profile_photo_bytes, selectedtemplate
-        )
-        pdf_bytes = buf.getvalue()
-        pages = convert_from_bytes(pdf_bytes, first_page=0, last_page=1)
-        st.image(pages[0], caption="PDF Preview",width="stretch")
-    except Exception as e:
-        st.warning(f"Preview unavailable: {e}")
-
     # Always render the Download button; validate on click
     if st.button("Generate PDF"):
         if not (name and email and phone):
             st.error("Name, Email, and Phone are required to generate the PDF.")
         else:
-            if buf is None:
-                # regenerate buffer if needed
-                buf = generate_pdf_resume(
-                    name, email, phone, summary, education, skills, experience,
-                    languages, certificates, awards, interests, profile_photo_bytes, selectedtemplate
-                )
+            buf = generate_pdf_resume(
+                name, email, phone, summary, education, skills, experience,
+                languages, certificates, awards, interests, profile_photo_bytes, selectedtemplate
+            )
             st.success("PDF ready. Click to download.")
             st.download_button(
                 "Download PDF Resume",
