@@ -2,3 +2,4 @@ reportlab
 google-generativeai
 streamlit
 google-auth
+streamlit_image_select
