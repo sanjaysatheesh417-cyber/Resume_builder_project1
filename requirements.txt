@@ -1,0 +1,5 @@
+reportlab
+google-generativeai
+base64,os
+io
+google-auth
