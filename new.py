@@ -16,7 +16,7 @@ import re
 def load_template_images():
     imgs = []
     for i in range(8):
-        path = os.path.join("templates", f"C:\\workplace\\resume_builder\\.venv\\Lib\\site-packages\\streamlit_image_select\\frontend\\build\\template\\template{i+1}.png")
+        path = os.path.join("templates", f".venv\\Lib\\site-packages\\streamlit_image_select\\frontend\\build\\template\\template{i+1}.png")
         if os.path.exists(path):
             with open(path, "rb") as f:
                 imgs.append(base64.b64encode(f.read()).decode())
