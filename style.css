@@ -33,7 +33,7 @@
     font-family: 'Inter', sans-serif;
 }
 
-/* Sidebar option card styling (may require updating CSS class if Streamlit's class names change) */
+/* Sidebar option card styling */
 .stSidebar .css-1v3fvcr {
     background: #ffffff !important;
     border-radius: 16px !important;
