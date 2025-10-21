@@ -19,7 +19,7 @@ def load_template_images():
 
     base_url = "https://raw.githubusercontent.com/sanjaysatheesh417-cyber/Resume_builder_project1/main/templates/template"
 
-    for i in range(1, 9):
+    for i in range(0, 9):
         url = f"{base_url}{i}.png"
         try:
             response = requests.get(url)
