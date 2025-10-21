@@ -19,7 +19,7 @@ def load_template_images():
 
     base_url = "https://raw.githubusercontent.com/sanjaysatheesh417-cyber/Resume_builder_project1/main/templates/template"
 
-    for i in range(0, 8):
+    for i in range(1, 9):
         url = f"{base_url}{i}.png"
         try:
             response = requests.get(url)
@@ -34,7 +34,7 @@ def load_template_images():
 
     return imgs
 
-template_names = [f"Template{i}" for i in range(0, 8)]
+template_names = [f"Template{i}" for i in range(1, 9)]
 template_images = load_template_images()
 
 defaults = {
@@ -103,7 +103,7 @@ def wrap_text(text, width):
         lines.extend(wrap(line.strip(), width))
     return lines
 
-def template_template0(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template1(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     # Your existing template_template1 code here, unchanged
     width, height = A4
     margin_bottom = 50
@@ -232,7 +232,7 @@ def template_template0(c, name, email, phone, summary, education, skills, experi
     draw_main_section("EDUCATION", education)
     draw_footer(page_number)
 
-def template_template1(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template2(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     margin_bottom = 50
     content_x = 55
@@ -330,7 +330,7 @@ def template_template1(c, name, email, phone, summary, education, skills, experi
             y -= 8
     y = height - 60
 
-def template_template2(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template3(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     y = height - 60
     margin_left = 45
@@ -404,7 +404,7 @@ def template_template2(c, name, email, phone, summary, education, skills, experi
                     y -= 12
             y -= 8
 
-def template_template3(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template4(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     sidebar_width = width * 0.32
     content_x = sidebar_width + 20
@@ -465,7 +465,7 @@ def template_template3(c, name, email, phone, summary, education, skills, experi
                     y -= 11
             y -= 8
 
-def template_template4(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template5(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     y = height - 42
 
@@ -514,7 +514,7 @@ def template_template4(c, name, email, phone, summary, education, skills, experi
                     y -= 11
             y -= 7
 
-def template_template5(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template6(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     sidebar_width = 90
     content_x = sidebar_width + 34
@@ -579,7 +579,7 @@ def template_template5(c, name, email, phone, summary, education, skills, experi
                     y -= 11
             y -= 11
 
-def template_template6(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template7(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     y = height - 55
 
@@ -622,7 +622,7 @@ def template_template6(c, name, email, phone, summary, education, skills, experi
             y -= 7
 
 
-def template_template7(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
+def template_template8(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
     width, height = A4
     sidebar_width = 98
     content_x = sidebar_width + 38
@@ -683,9 +683,7 @@ def generate_pdf_resume(name,email,phone,summary,education,skills,experience,lan
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
     template = f"templates{selected_template}".lower() # Ensure lowercase for matching function names
-    if template == "template0":
-        template_template0(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
-    elif template == "template1":
+    if template == "template1":
         template_template1(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
     elif template == "template2":
         template_template2(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
@@ -699,6 +697,8 @@ def generate_pdf_resume(name,email,phone,summary,education,skills,experience,lan
         template_template6(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
     elif template == "template7":
         template_template7(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
+    elif template == "template8":
+        template_template8(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
     else:
         c.drawString(100, 800, f"Resume for {name}")
         c.drawString(100, 780, f"Template '{template}' not found. Using basic layout.")
