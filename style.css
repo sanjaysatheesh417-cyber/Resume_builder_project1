@@ -1,0 +1,70 @@
+/* style.css */
+.stApp {
+    background-image: url("https://i.pinimg.com/736x/e4/fa/f9/e4faf95052527c2025e70bf13c506f6a.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    height: 100vh;
+    width: 100vw;
+}
+.main, .block-container {
+    background-color: transparent !important;
+}
+
+/* Sidebar base styling */
+.stSidebar {
+    background: #f6f7f9 !important;
+    padding-top: 30px;
+    border-top-right-radius: 32px;
+    border-bottom-right-radius: 32px;
+    box-shadow: 4px 0 32px #dbe2ef40;
+}
+.stSidebar .sidebar-content {
+    padding: 20px 16px;
+}
+
+.stSidebar label, .stSidebar h2 {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Sidebar option styling */
+.stSidebar .css-1v3fvcr {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    margin-bottom: 6px;
+    transition: box-shadow 0.13s, background 0.13s;
+    box-shadow: 0 2px 8px #e0e2e8a2;
+}
+.stSidebar .css-1v3fvcr:hover, .stSidebar .css-1v3fvcr:active, .stSidebar .css-1v3fvcr:focus {
+    background: #e0f7fa !important;
+    box-shadow: 0 4px 16px #175ddc15;
+}
+.stSidebar .css-16idsys {
+    color: #001f54 !important;
+    font-weight: 500;
+}
+
+/* Icon styling */
+.sidebar-icon {
+    width: 22px;
+    vertical-align: middle;
+    margin-right: 10px;
+    opacity: 0.76;
+}
+
+/* Profile styling */
+.sidebar-profile {
+    margin-bottom: 32px;
+    text-align: center;
+}
+.sidebar-profile img {
+    border-radius: 50%;
+    width: 64px;
+    margin-bottom: 8px;
+    border: 2px solid #405de6;
+}
+.sidebar-profile h2 {
+    font-size: 1.2rem;
+    margin: 6px 0 0 0;
+}

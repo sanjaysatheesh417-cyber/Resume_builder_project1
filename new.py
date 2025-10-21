@@ -13,6 +13,16 @@ import streamlit.components.v1 as components
 import requests
 import re
 
+def load_css(file_name):
+    with open(file_name) as f:
+        css = f.read()
+        st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+
+# Call at the very beginning of your app
+load_css("style.css")
+
+st.set_page_config(layout="wide")
+
 @st.cache_resource
 def load_template_images():
     imgs = []
@@ -74,28 +84,6 @@ def enhance_section(section_name, text):
     except Exception as e:
         st.warning(f"AI enhancement failed: {e}")
         return [text]
-
-
-st.set_page_config(layout="wide")
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background-image: url("https://i.pinimg.com/736x/e4/fa/f9/e4faf95052527c2025e70bf13c506f6a.jpg");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-position: center;
-        height: 100vh;
-        width: 100vw;
-    }
-    .main, .block-container {
-        background-color: transparent !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
 def wrap_text(text, width):
     lines = []
@@ -744,13 +732,39 @@ def ai_enhance_ui(field_key, field_label, height=150):
 # Streamlit UI
 st.title("Resume Builder")
 sections = [
-    "Personal Info", "Summary", "Academics", "Professional Info",
-    "Achievements", "Interests", "Choose Template", "Submission"
+    ("Dashboard", "🏠"),
+    ("Personal Info", "🧑"),
+    ("Summary", "📝"),
+    ("Academics", "🎓"),
+    ("Professional Info", "💼"),
+    ("Achievements", "🏅"),
+    ("Interests", "🌟"),
+    ("Choose Template", "📄"),
+    ("Submission", "✅"),
 ]
+st.sidebar.markdown(
+    """
+    <div class="sidebar-profile">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" />
+        <h2>Kevin Dukkon</h2>
+        <span style="color: #4cbb17">Available for work</span>
+    </div>
+    """, unsafe_allow_html=True
+)
+options = [f"{icon} {label}" for label, icon in sections]
+selected = st.sidebar.radio("Navigate", options, label_visibility="collapsed")
+
+st.title(selected.replace("🏠 ", "").replace("🧑 ", "").replace("📝 ", "")
+         .replace("🎓 ", "").replace("💼 ", "").replace("🏅 ", "")
+         .replace("🌟 ", "").replace("📄 ", "").replace("✅ ", ""))
 
 selected_section = st.sidebar.radio("Navigate", sections)
 
-if selected_section == "Personal Info":
+if selected_section == "Dashboard":
+    st.header("Dashboard")
+    st.image("https://www.dropbox.com/scl/fi/br07oo6pl0jbvzz1hm572/LET-S-GET-STARTED.gif?raw=1")
+
+elif selected_section == "Personal Info":
     st.header("Personal Info")
     uploaded_photo = st.file_uploader("Upload profile photo", type=["jpg", "png", "jpeg"])
     profile_photo_bytes = None
