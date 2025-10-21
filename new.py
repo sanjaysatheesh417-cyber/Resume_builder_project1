@@ -682,7 +682,7 @@ def template_template8(c, name, email, phone, summary, education, skills, experi
 def generate_pdf_resume(name,email,phone,summary,education,skills,experience,languages,certificates,awards,interests,profile_photo_bytes,template):
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
-    template = f"templates{selected_template}".lower() # Ensure lowercase for matching function names
+    template = f"template{selected_template}".lower() # Ensure lowercase for matching function names
     if template == "template1":
         template_template1(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
     elif template == "template2":
