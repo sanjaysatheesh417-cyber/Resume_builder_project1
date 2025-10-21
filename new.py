@@ -707,17 +707,21 @@ def generate_pdf_resume(name,email,phone,summary,education,skills,experience,lan
     return buffer
 
 def ai_enhance_ui(field_key, field_label, height=150):
+    # Display textarea, and always write new value into field_key in session_state
     input_val = st.session_state.get(field_key, "")
-    cand_key = f"{field_key}_ai_options"
+    input_val = st.text_area(field_label, value=input_val, height=height, key=f"{field_key}_input")
+    st.session_state[field_key] = input_val  # <-- sync textarea to session_state
 
-    # Text area shows current value ONLY for editing
-    st.text_area(field_label, value=input_val, height=height, key=f"{field_key}_input")
+    cand_key = f"{field_key}_ai_options"
 
     # Enhance Button
     if st.button(f"Enhance with AI ({field_label})"):
-        with st.spinner("Enhancing..."):
-            options = enhance_section(field_label, input_val)
-            st.session_state[cand_key] = options
+        if input_val.strip():
+            with st.spinner("Enhancing..."):
+                options = enhance_section(field_label, input_val)
+                st.session_state[cand_key] = options
+        else:
+            st.warning("Please provide the summary you would like me to rewrite.")
 
     # Radio for AI options and Apply Selection
     applied_key = f"{field_key}_applied"
