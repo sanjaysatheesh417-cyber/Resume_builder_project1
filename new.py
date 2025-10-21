@@ -682,7 +682,7 @@ def template_template7(c, name, email, phone, summary, education, skills, experi
 def generate_pdf_resume(name,email,phone,summary,education,skills,experience,languages,certificates,awards,interests,profile_photo_bytes,template):
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
-    template = f"template{selected_template}".lower() # Ensure lowercase for matching function names
+    template = f"templates{selected_template}".lower() # Ensure lowercase for matching function names
     if template == "template0":
         template_template0(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
     elif template == "template1":
@@ -772,7 +772,7 @@ with tab7:
     if "selected_template" not in st.session_state:
         st.session_state.selected_template = 0
 
-    st.markdown("### Choose template")
+    st.markdown("### Choose templates")
 
     cols = st.columns(4)
     for i, (name, img_b64) in enumerate(zip(template_names, template_images)):
