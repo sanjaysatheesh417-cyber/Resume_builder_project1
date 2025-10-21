@@ -8,20 +8,30 @@ import io
 import google.generativeai as genai
 from PIL import Image
 from textwrap import wrap
-import base64,os
+import base64
 import streamlit.components.v1 as components
+import requests
 import re
 
 @st.cache_resource
 def load_template_images():
     imgs = []
-    for i in range(8):
-        path = os.path.join("templates", f".venv\\Lib\\site-packages\\streamlit_image_select\\frontend\\build\\template\\template{i+1}.png")
-        if os.path.exists(path):
-            with open(path, "rb") as f:
-                imgs.append(base64.b64encode(f.read()).decode())
-        else:
+
+    base_url = "https://raw.githubusercontent.com/sanjaysatheesh417-cyber/Resume_builder_project1/main/templates/template"
+
+    for i in range(1, 9):
+        url = f"{base_url}{i}.png"
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                # Convert image bytes to base64
+                imgs.append(base64.b64encode(response.content).decode())
+            else:
+                imgs.append(None)
+        except Exception as e:
+            print(f"Error loading image from {url}: {e}")
             imgs.append(None)
+
     return imgs
 
 template_names = [f"Template{i}" for i in range(1, 9)]
