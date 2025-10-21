@@ -42,7 +42,7 @@ defaults = {
     'summary': '', 'education': '', 'experience': '',
     'skills': '', 'languages': '', 'certificates': '',
     'awards': '', 'interests': '',
-    'selected_template': 0
+    'selected_template': 1
 }
 for k, v in defaults.items():
     if k not in st.session_state:
@@ -774,7 +774,7 @@ with tab6:
 
 with tab7:
     if "selected_template" not in st.session_state:
-        st.session_state.selected_template = 0
+        st.session_state.selected_template = 1
 
     st.markdown("### Choose templates")
 
