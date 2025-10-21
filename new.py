@@ -742,23 +742,13 @@ sections = [
     ("Choose Template", "📄"),
     ("Submission", "✅"),
 ]
-st.sidebar.markdown(
-    """
-    <div class="sidebar-profile">
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" />
-        <h2>Kevin Dukkon</h2>
-        <span style="color: #4cbb17">Available for work</span>
-    </div>
-    """, unsafe_allow_html=True
-)
-options = [f"{icon} {label}" for label, icon in sections]
-selected = st.sidebar.radio("Navigate", options, label_visibility="collapsed")
 
-st.title(selected.replace("🏠 ", "").replace("🧑 ", "").replace("📝 ", "")
+options = [f"{icon} {label}" for label, icon in sections]
+selected_section = st.sidebar.radio("Navigate", options, label_visibility="collapsed")
+
+st.title(selected_section.replace("🏠 ", "").replace("🧑 ", "").replace("📝 ", "")
          .replace("🎓 ", "").replace("💼 ", "").replace("🏅 ", "")
          .replace("🌟 ", "").replace("📄 ", "").replace("✅ ", ""))
-
-selected_section = st.sidebar.radio("Navigate", sections)
 
 if selected_section == "Dashboard":
     st.header("Dashboard")
