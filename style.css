@@ -1,4 +1,4 @@
-/* style.css */
+/* Background styling */
 .stApp {
     background-image: url("https://i.pinimg.com/736x/e4/fa/f9/e4faf95052527c2025e70bf13c506f6a.jpg");
     background-size: cover;
@@ -8,6 +8,8 @@
     height: 100vh;
     width: 100vw;
 }
+
+/* Make main area transparent */
 .main, .block-container {
     background-color: transparent !important;
 }
@@ -20,15 +22,18 @@
     border-bottom-right-radius: 32px;
     box-shadow: 4px 0 32px #dbe2ef40;
 }
+
+/* Sidebar content spacing */
 .stSidebar .sidebar-content {
     padding: 20px 16px;
 }
 
+/* Sidebar label and headings */
 .stSidebar label, .stSidebar h2 {
     font-family: 'Inter', sans-serif;
 }
 
-/* Sidebar option styling */
+/* Sidebar option card styling (may require updating CSS class if Streamlit's class names change) */
 .stSidebar .css-1v3fvcr {
     background: #ffffff !important;
     border-radius: 16px !important;
@@ -36,16 +41,22 @@
     transition: box-shadow 0.13s, background 0.13s;
     box-shadow: 0 2px 8px #e0e2e8a2;
 }
-.stSidebar .css-1v3fvcr:hover, .stSidebar .css-1v3fvcr:active, .stSidebar .css-1v3fvcr:focus {
+
+/* Sidebar option hover/selected state */
+.stSidebar .css-1v3fvcr:hover,
+.stSidebar .css-1v3fvcr:active,
+.stSidebar .css-1v3fvcr:focus {
     background: #e0f7fa !important;
     box-shadow: 0 4px 16px #175ddc15;
 }
+
+/* Sidebar option text */
 .stSidebar .css-16idsys {
     color: #001f54 !important;
     font-weight: 500;
 }
 
-/* Icon styling */
+/* Sidebar icon styling */
 .sidebar-icon {
     width: 22px;
     vertical-align: middle;
@@ -53,7 +64,7 @@
     opacity: 0.76;
 }
 
-/* Profile styling */
+/* Profile styling in sidebar */
 .sidebar-profile {
     margin-bottom: 32px;
     text-align: center;

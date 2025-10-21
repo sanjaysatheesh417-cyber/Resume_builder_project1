@@ -17,8 +17,6 @@ def load_css(file_name):
     with open(file_name) as f:
         css = f.read()
         st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
-
-# Call at the very beginning of your app
 load_css("style.css")
 
 st.set_page_config(layout="wide")
