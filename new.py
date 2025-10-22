@@ -14,11 +14,6 @@ import requests
 import re
 st.text_input("Test Widget")
 
-def load_css(file_name):
-    with open(file_name) as f:
-        css = f.read()
-        st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
-load_css("style.css")
 
 st.set_page_config(layout="wide")
 
