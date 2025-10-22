@@ -749,13 +749,9 @@ st.title(selected_section.replace("🏠 ", "").replace("🧑 ", "").replace("�
          .replace("🌟 ", "").replace("📄 ", "").replace("✅ ", ""))
 
 if "Dashboard" in selected_section:
-    st.text_input('Fallback - should always appear')
-
-    st.header("Dashboard")
     st.image("https://www.dropbox.com/scl/fi/br07oo6pl0jbvzz1hm572/LET-S-GET-STARTED.gif?raw=1")
 
 elif "Personal Info" in selected_section:
-    st.header("Personal Info")
     uploaded_photo = st.file_uploader("Upload profile photo", type=["jpg", "png", "jpeg"])
     profile_photo_bytes = None
     if uploaded_photo is not None:
@@ -765,30 +761,24 @@ elif "Personal Info" in selected_section:
     phone = st.text_input("Phone", value=st.session_state.get("phone", ""), key="phone")
 
 elif "Summary" in selected_section:
-    st.header("Summary")
     ai_enhance_ui("summary", "Summary", height=150)
 
 elif "Academics" in selected_section:
-    st.header("Academics")
     ai_enhance_ui("education", "Education", height=150)
     ai_enhance_ui("languages", "Languages", height=100)
 
 elif "Professional Info" in selected_section:
-    st.header("Professional Info")
     ai_enhance_ui("experience", "Experience", height=100)
     ai_enhance_ui("skills", "Skills", height=100)
 
 elif "Achievements" in selected_section:
-    st.header("Achievements")
     ai_enhance_ui("certificates", "Certificates", height=100)
     ai_enhance_ui("awards", "Awards", height=100)
 
 elif "Interests" in selected_section:
-    st.header("Interests")
     ai_enhance_ui("interests", "Interests", height=100)
 
 elif "Choose Template" in selected_section:
-    st.header("Choose Template")
     if "selected_template" not in st.session_state:
         st.session_state.selected_template = 1
 
@@ -817,7 +807,6 @@ elif "Choose Template" in selected_section:
         st.image(f"data:image/png;base64,{template_images[sel_idx]}", width="stretch")
 
 elif "Submission" in selected_section:
-    st.header("Submission")
     # Always render the Download button; validate on click
     if st.button("Generate PDF"):
         name = st.session_state.get("name", "")
