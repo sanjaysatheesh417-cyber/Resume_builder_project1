@@ -36,7 +36,7 @@ section[data-testid="stSidebar"] .sidebar-title .sidebar-sub {
 
 /* Sidebar container - sharp corners */
 section[data-testid="stSidebar"] {
-    background: #f5f5dc !important;
+    background: #E5D5BC !important;
     border-radius: 0 !important;
     margin: 0 0 0 0;
     box-shadow: 0 2px 16px 0 #e2e5ee40;
