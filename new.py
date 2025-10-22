@@ -12,6 +12,7 @@ import base64
 import streamlit.components.v1 as components
 import requests
 import re
+st.text_input("Test Widget")
 
 def load_css(file_name):
     with open(file_name) as f:
@@ -738,8 +739,7 @@ sections = [
     ("Achievements", "🏅"),
     ("Interests", "🌟"),
     ("Choose Template", "📄"),
-    ("Submission", "✅"),
-]
+    ("Submission", "✅")]
 
 options = [f"{icon} {label}" for label, icon in sections]
 selected_section = st.sidebar.radio("Navigate", options, label_visibility="collapsed")
