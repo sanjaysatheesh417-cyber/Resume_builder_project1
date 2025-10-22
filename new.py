@@ -748,11 +748,13 @@ st.title(selected_section.replace("🏠 ", "").replace("🧑 ", "").replace("�
          .replace("🎓 ", "").replace("💼 ", "").replace("🏅 ", "")
          .replace("🌟 ", "").replace("📄 ", "").replace("✅ ", ""))
 
-if selected_section == "Dashboard":
+if selected_section == ("Dashboard", "🏠"):
+    st.text_input('Fallback - should always appear')
+
     st.header("Dashboard")
     st.image("https://www.dropbox.com/scl/fi/br07oo6pl0jbvzz1hm572/LET-S-GET-STARTED.gif?raw=1")
 
-elif selected_section == "Personal Info":
+elif selected_section == ("Personal Info", "🧑"):
     st.header("Personal Info")
     uploaded_photo = st.file_uploader("Upload profile photo", type=["jpg", "png", "jpeg"])
     profile_photo_bytes = None
@@ -762,30 +764,30 @@ elif selected_section == "Personal Info":
     email = st.text_input("Email", value=st.session_state.get("email", ""), key="email")
     phone = st.text_input("Phone", value=st.session_state.get("phone", ""), key="phone")
 
-elif selected_section == "Summary":
+elif selected_section == ("Summary", "📝"):
     st.header("Summary")
     ai_enhance_ui("summary", "Summary", height=150)
 
-elif selected_section == "Academics":
+elif selected_section == ("Academics", "🎓"):
     st.header("Academics")
     ai_enhance_ui("education", "Education", height=150)
     ai_enhance_ui("languages", "Languages", height=100)
 
-elif selected_section == "Professional Info":
+elif selected_section == ("Professional Info", "💼"):
     st.header("Professional Info")
     ai_enhance_ui("experience", "Experience", height=100)
     ai_enhance_ui("skills", "Skills", height=100)
 
-elif selected_section == "Achievements":
+elif selected_section == ("Achievements", "🏅"):
     st.header("Achievements")
     ai_enhance_ui("certificates", "Certificates", height=100)
     ai_enhance_ui("awards", "Awards", height=100)
 
-elif selected_section == "Interests":
+elif selected_section == ("Interests", "🌟"):
     st.header("Interests")
     ai_enhance_ui("interests", "Interests", height=100)
 
-elif selected_section == "Choose Template":
+elif selected_section == ("Choose Template", "📄"):
     st.header("Choose Template")
     if "selected_template" not in st.session_state:
         st.session_state.selected_template = 1
@@ -814,7 +816,7 @@ elif selected_section == "Choose Template":
     if template_images[sel_idx]:
         st.image(f"data:image/png;base64,{template_images[sel_idx]}", width="stretch")
 
-elif selected_section == "Submission":
+elif selected_section == ("Submission", "✅"):
     st.header("Submission")
     # Always render the Download button; validate on click
     if st.button("Generate PDF"):
