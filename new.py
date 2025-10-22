@@ -740,8 +740,6 @@ sections = [
     ("Choose Template", "📄"),
     ("Submission", "✅")]
 
-section_labels = [label for label, icon in sections]
-
 options = [f"{icon} {label}" for label, icon in sections]
 
 st.sidebar.markdown(
@@ -756,44 +754,12 @@ st.sidebar.markdown(
 
 selected_section = st.sidebar.radio("Navigate", options, label_visibility="collapsed")
 
-current_idx = [label for label, icon in sections].index(
-    selected_section.replace("🏠 ", "")
-                   .replace("🧑 ", "")
-                   .replace("📝 ", "")
-                   .replace("🎓 ", "")
-                   .replace("💼 ", "")
-                   .replace("🏅 ", "")
-                   .replace("🌟 ", "")
-                   .replace("📄 ", "")
-                   .replace("✅ ", "")
-)
-
 st.title(selected_section.replace("🏠 ", "").replace("🧑 ", "").replace("📝 ", "")
          .replace("🎓 ", "").replace("💼 ", "").replace("🏅 ", "")
          .replace("🌟 ", "").replace("📄 ", "").replace("✅ ", ""))
 
 if "Dashboard" in selected_section:
-    st.image("https://www.dropbox.com/scl/fi/br07oo6pl0jbvzz1hm572/LET-S-GET-STARTED.gif?raw=1")
-    cols = st.columns([1, 6, 1])
-
-    sections = [
-        "Dashboard",
-        "Personal Info",
-        "Summary",
-        "Academics",
-        "Professional Info",
-        "Achievements",
-        "Interests",
-        "Choose Template",
-        "Submission"
-    ]
-    current_idx = sections.index("Dashboard")  # Replace with your section logic
-
-    with cols[2]:
-        if current_idx < len(sections) - 1:
-            next_section = sections[current_idx + 1]
-            if st.button("START"):
-                st.session_state["selected_section"] = next_section
+    st.image("https://i.pinimg.com/736x/76/90/d0/7690d091b5e2b591d4439adff3f8d554.jpg")
 
 elif "Personal Info" in selected_section:
     uploaded_photo = st.file_uploader("Upload profile photo", type=["jpg", "png", "jpeg"])
@@ -803,174 +769,24 @@ elif "Personal Info" in selected_section:
     name = st.text_input("Name", value=st.session_state.get("name", ""), key="name")
     email = st.text_input("Email", value=st.session_state.get("email", ""), key="email")
     phone = st.text_input("Phone", value=st.session_state.get("phone", ""), key="phone")
-    cols = st.columns([1, 6, 1])
-
-    sections = [
-        "Dashboard",
-        "Personal Info",
-        "Summary",
-        "Academics",
-        "Professional Info",
-        "Achievements",
-        "Interests",
-        "Choose Template",
-        "Submission"
-    ]
-    current_idx = sections.index("Personal Info")  # Replace with your section logic
-
-    with cols[0]:
-        if current_idx > 0:
-            prev_section = sections[current_idx - 1]
-            if st.button(f"⬅ Previous: {prev_section}"):
-                st.session_state["selected_section"] = prev_section
-    with cols[2]:
-        if current_idx < len(sections) - 1:
-            next_section = sections[current_idx + 1]
-            if st.button(f"Next: {next_section} ➡"):
-                st.session_state["selected_section"] = next_section
 
 elif "Summary" in selected_section:
     ai_enhance_ui("summary", "Summary", height=150)
-    cols = st.columns([1, 6, 1])
-
-    sections = [
-        "Dashboard",
-        "Personal Info",
-        "Summary",
-        "Academics",
-        "Professional Info",
-        "Achievements",
-        "Interests",
-        "Choose Template",
-        "Submission"
-    ]
-    current_idx = sections.index("Summary")  # Replace with your section logic
-
-    with cols[0]:
-        if current_idx > 0:
-            prev_section = sections[current_idx - 1]
-            if st.button(f"⬅ Previous: {prev_section}"):
-                st.session_state["selected_section"] = prev_section
-    with cols[2]:
-        if current_idx < len(sections) - 1:
-            next_section = sections[current_idx + 1]
-            if st.button(f"Next: {next_section} ➡"):
-                st.session_state["selected_section"] = next_section
 
 elif "Academics" in selected_section:
     ai_enhance_ui("education", "Education", height=150)
     ai_enhance_ui("languages", "Languages", height=100)
-    cols = st.columns([1, 6, 1])
-
-    sections = [
-        "Dashboard",
-        "Personal Info",
-        "Summary",
-        "Academics",
-        "Professional Info",
-        "Achievements",
-        "Interests",
-        "Choose Template",
-        "Submission"
-    ]
-    current_idx = sections.index("Academics")  # Replace with your section logic
-
-    with cols[0]:
-        if current_idx > 0:
-            prev_section = sections[current_idx - 1]
-            if st.button(f"⬅ Previous: {prev_section}"):
-                st.session_state["selected_section"] = prev_section
-    with cols[2]:
-        if current_idx < len(sections) - 1:
-            next_section = sections[current_idx + 1]
-            if st.button(f"Next: {next_section} ➡"):
-                st.session_state["selected_section"] = next_section
 
 elif "Professional Info" in selected_section:
     ai_enhance_ui("experience", "Experience", height=100)
     ai_enhance_ui("skills", "Skills", height=100)
-    cols = st.columns([1, 6, 1])
-
-    sections = [
-        "Dashboard",
-        "Personal Info",
-        "Summary",
-        "Academics",
-        "Professional Info",
-        "Achievements",
-        "Interests",
-        "Choose Template",
-        "Submission"
-    ]
-    current_idx = sections.index("Professional Info")  # Replace with your section logic
-
-    with cols[0]:
-        if current_idx > 0:
-            prev_section = sections[current_idx - 1]
-            if st.button(f"⬅ Previous: {prev_section}"):
-                st.session_state["selected_section"] = prev_section
-    with cols[2]:
-        if current_idx < len(sections) - 1:
-            next_section = sections[current_idx + 1]
-            if st.button(f"Next: {next_section} ➡"):
-                st.session_state["selected_section"] = next_section
 
 elif "Achievements" in selected_section:
     ai_enhance_ui("certificates", "Certificates", height=100)
     ai_enhance_ui("awards", "Awards", height=100)
-    cols = st.columns([1, 6, 1])
-
-    sections = [
-        "Dashboard",
-        "Personal Info",
-        "Summary",
-        "Academics",
-        "Professional Info",
-        "Achievements",
-        "Interests",
-        "Choose Template",
-        "Submission"
-    ]
-    current_idx = sections.index("Achievements")  # Replace with your section logic
-
-    with cols[0]:
-        if current_idx > 0:
-            prev_section = sections[current_idx - 1]
-            if st.button(f"⬅ Previous: {prev_section}"):
-                st.session_state["selected_section"] = prev_section
-    with cols[2]:
-        if current_idx < len(sections) - 1:
-            next_section = sections[current_idx + 1]
-            if st.button(f"Next: {next_section} ➡"):
-                st.session_state["selected_section"] = next_section
 
 elif "Interests" in selected_section:
     ai_enhance_ui("interests", "Interests", height=100)
-    cols = st.columns([1, 6, 1])
-
-    sections = [
-        "Dashboard",
-        "Personal Info",
-        "Summary",
-        "Academics",
-        "Professional Info",
-        "Achievements",
-        "Interests",
-        "Choose Template",
-        "Submission"
-    ]
-    current_idx = sections.index("Interests")  # Replace with your section logic
-
-    with cols[0]:
-        if current_idx > 0:
-            prev_section = sections[current_idx - 1]
-            if st.button(f"⬅ Previous: {prev_section}"):
-                st.session_state["selected_section"] = prev_section
-    with cols[2]:
-        if current_idx < len(sections) - 1:
-            next_section = sections[current_idx + 1]
-            if st.button(f"Next: {next_section} ➡"):
-                st.session_state["selected_section"] = next_section
 
 elif "Choose Template" in selected_section:
     if "selected_template" not in st.session_state:
@@ -999,32 +815,6 @@ elif "Choose Template" in selected_section:
     st.markdown(f"#### Selected: {template_names[sel_idx]}")
     if template_images[sel_idx]:
         st.image(f"data:image/png;base64,{template_images[sel_idx]}", width="stretch")
-
-    cols = st.columns([1, 6, 1])
-
-    sections = [
-        "Dashboard",
-        "Personal Info",
-        "Summary",
-        "Academics",
-        "Professional Info",
-        "Achievements",
-        "Interests",
-        "Choose Template",
-        "Submission"
-    ]
-    current_idx = sections.index("Choose Template")  # Replace with your section logic
-
-    with cols[0]:
-        if current_idx > 0:
-            prev_section = sections[current_idx - 1]
-            if st.button(f"⬅ Previous: {prev_section}"):
-                st.session_state["selected_section"] = prev_section
-    with cols[2]:
-        if current_idx < len(sections) - 1:
-            next_section = sections[current_idx + 1]
-            if st.button(f"Next: {next_section} ➡"):
-                st.session_state["selected_section"] = next_section
 
 elif "Submission" in selected_section:
     # Always render the Download button; validate on click
@@ -1056,23 +846,3 @@ elif "Submission" in selected_section:
                 file_name=f"{name}_resume.pdf",
                 mime="application/pdf"
             )
-    cols = st.columns([1, 6, 1])
-
-    sections = [
-        "Dashboard",
-        "Personal Info",
-        "Summary",
-        "Academics",
-        "Professional Info",
-        "Achievements",
-        "Interests",
-        "Choose Template",
-        "Submission"
-    ]
-    current_idx = sections.index("Submission")  # Replace with your section logic
-
-    with cols[0]:
-        if current_idx > 0:
-            prev_section = sections[current_idx - 1]
-            if st.button(f"⬅ Previous: {prev_section}"):
-                st.session_state["selected_section"] = prev_section
