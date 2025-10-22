@@ -9,7 +9,6 @@
     width: 100vw;
 }
 
-/* Sidebar card styling */
 section[data-testid="stSidebar"] {
     background: #f9f9fb !important;
     border-radius: 24px;
@@ -20,82 +19,64 @@ section[data-testid="stSidebar"] {
     max-width: 280px;
 }
 
-/* Make each radio option look like a card/selectbox */
-section[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] {
-    padding: 0;
-}
-
-section[data-testid="stSidebar"] .st-eg .st-el {
-    display: flex;
-    align-items: center;
+/* Make sidebar radio options look like selectboxes */
+section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] label {
+    position: relative;
+    width: 100%;
     background: #f0f1f6 !important;
     border-radius: 12px;
-    margin-bottom: 9px;
-    transition: box-shadow 0.16s, background 0.17s;
-    min-height: 44px;
-    position: relative;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none;
+    margin-bottom: 11px !important;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 1.05em;
+    padding: 13px 10px 13px 16px;
+    transition: background 0.13s, box-shadow 0.13s;
+    box-shadow: none;
+    border: none !important;
 }
 
-/* Remove radio dot for all radios */
-section[data-testid="stSidebar"] .st-eg .st-el input[type="radio"] {
+/* Hide the radio dot itself */
+section[data-testid="stSidebar"] .stRadio input[type="radio"] {
+    position: absolute;
+    left: -9999px;
+    visibility: hidden;
     width: 0;
     height: 0;
-    opacity: 0;
     margin: 0;
     pointer-events: none;
-    position: absolute;
+    display: none;
+    opacity: 0;
 }
 
-/* Show selectbox highlight on selected */
-section[data-testid="stSidebar"] .st-eg .st-el input[type="radio"]:checked + div {
+/* Style option when selected */
+section[data-testid="stSidebar"] .stRadio input[type="radio"]:checked + div {
     background: #dde9ff !important;
     border: 2px solid #3a73ff;
     color: #10215e;
 }
 
-/* Card hover/focus */
-section[data-testid="stSidebar"] .st-eg .st-el:hover,
-section[data-testid="stSidebar"] .st-eg .st-el:active,
-section[data-testid="stSidebar"] .st-eg .st-el:focus-within {
+section[data-testid="stSidebar"] .stRadio label:hover,
+section[data-testid="stSidebar"] .stRadio label:focus,
+section[data-testid="stSidebar"] .stRadio label:active {
     background: #e7eaf8 !important;
     box-shadow: 0 0 0 2.5px #3a73ff33;
 }
 
-/* Option label style (icons, spacing) */
-section[data-testid="stSidebar"] .st-eg .st-el label {
-    color: #1c232e;
-    font-weight: 600;
-    font-size: 1.08rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 12px 10px 12px 15px;
-    background: transparent;
-    min-height: 40px;
-    gap: 12px;
-    cursor: pointer;
-    border-radius: 12px;
-    transition: background 0.14s;
-}
-
-/* Icon styling in label */
-section[data-testid="stSidebar"] .st-eg .st-el label span {
-    font-size: 1.23em;
+section[data-testid="stSidebar"] .stRadio label span {
+    font-size: 1.22em;
     opacity: 0.88;
-    margin-right: 10px;
+    margin-right: 13px;
 }
 
-/* Remove default margin/indent */
-section[data-testid="stSidebar"] .st-eg {
-    margin-left: 0 !important;
+/* Remove left indent/padding for the group */
+section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] {
     padding-left: 0 !important;
 }
 
-/* No extra font bolding for groups */
-section[data-testid="stSidebar"] .st-ag {
-    font-weight: 400 !important;
+section[data-testid="stSidebar"] .stRadio {
+    margin-top: 0;
+    margin-bottom: 0;
 }
