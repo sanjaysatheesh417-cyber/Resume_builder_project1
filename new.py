@@ -729,7 +729,6 @@ def ai_enhance_ui(field_key, field_label, height=150):
         del st.session_state[f"{field_key}_applied"]
 
 # Streamlit UI
-st.title("Resume Builder")
 sections = [
     ("Dashboard", "🏠"),
     ("Personal Info", "🧑"),

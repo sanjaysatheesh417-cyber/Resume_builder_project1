@@ -1,33 +1,12 @@
 /* Background styling */
 .stApp {
-    background-image: url("https://i.pinimg.com/736x/e4/fa/f9/e4faf95052527c2025e70bf13c506f6a.jpg");
+    background-image: url("https://i.pinimg.com/1200x/90/4d/7b/904d7bb31966fde6a36cc811b92fa451.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
     height: 100vh;
     width: 100vw;
-}
-
-/* Floaty main block */
-main[data-testid="stAppViewContainer"] > .main {
-    background: #fff;
-    border-radius: 24px;
-    box-shadow: 0 4px 32px 4px #20204a18, 0 1.5px 8px 1.5px #20204a13;
-    margin: 38px 0 32px 0;
-    padding: 32px 46px;
-    max-width: 1080px;
-    min-height: 78vh;
-    width: 90vw;
-    position: relative;
-}
-
-/* Optional: keep responsive shadow on smaller screens */
-@media (max-width: 850px) {
-    main[data-testid="stAppViewContainer"] > .main {
-        padding: 14px 5vw;
-        border-radius: 11px;
-    }
 }
 
 /* Sidebar Title Styling */
@@ -57,7 +36,7 @@ section[data-testid="stSidebar"] .sidebar-title .sidebar-sub {
 
 /* Sidebar container - sharp corners */
 section[data-testid="stSidebar"] {
-    background: #f9f9fb !important;
+    background: #f5f5dc !important;
     border-radius: 0 !important;
     margin: 0 0 0 0;
     box-shadow: 0 2px 16px 0 #e2e5ee40;
