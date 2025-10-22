@@ -9,7 +9,7 @@
     width: 100vw;
 }
 
-/* Sidebar base card styling */
+/* Sidebar card styling */
 section[data-testid="stSidebar"] {
     background: #f9f9fb !important;
     border-radius: 24px;
@@ -20,7 +20,7 @@ section[data-testid="stSidebar"] {
     max-width: 280px;
 }
 
-/* Hide radio dots and make options full-width rectangles */
+/* Make each radio option look like a card/selectbox */
 section[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] {
     padding: 0;
 }
@@ -32,28 +32,32 @@ section[data-testid="stSidebar"] .st-eg .st-el {
     border-radius: 12px;
     margin-bottom: 9px;
     transition: box-shadow 0.16s, background 0.17s;
-    box-shadow: none;
     min-height: 44px;
+    position: relative;
     border: none !important;
     outline: none !important;
-    position: relative;
+    box-shadow: none;
     cursor: pointer;
 }
 
-/* Remove radio button circle */
+/* Remove radio dot for all radios */
 section[data-testid="stSidebar"] .st-eg .st-el input[type="radio"] {
+    width: 0;
+    height: 0;
     opacity: 0;
+    margin: 0;
+    pointer-events: none;
     position: absolute;
 }
 
-/* Change background for selected option */
+/* Show selectbox highlight on selected */
 section[data-testid="stSidebar"] .st-eg .st-el input[type="radio"]:checked + div {
     background: #dde9ff !important;
-    border: 2.5px solid #3a73ff;
+    border: 2px solid #3a73ff;
     color: #10215e;
 }
 
-/* Highlight on hover/focus */
+/* Card hover/focus */
 section[data-testid="stSidebar"] .st-eg .st-el:hover,
 section[data-testid="stSidebar"] .st-eg .st-el:active,
 section[data-testid="stSidebar"] .st-eg .st-el:focus-within {
@@ -78,20 +82,20 @@ section[data-testid="stSidebar"] .st-eg .st-el label {
     transition: background 0.14s;
 }
 
-/* Remove any accidental left border margin/padding */
+/* Icon styling in label */
+section[data-testid="stSidebar"] .st-eg .st-el label span {
+    font-size: 1.23em;
+    opacity: 0.88;
+    margin-right: 10px;
+}
+
+/* Remove default margin/indent */
 section[data-testid="stSidebar"] .st-eg {
     margin-left: 0 !important;
     padding-left: 0 !important;
 }
 
-/* If you use emojis/icons, make them stand out */
-section[data-testid="stSidebar"] .st-eg .st-el label span {
-    font-size: 1.22em;
-    opacity: 0.88;
-    margin-right: 11px;
-}
-
-/* Remove default Streamlit label bolding */
+/* No extra font bolding for groups */
 section[data-testid="stSidebar"] .st-ag {
     font-weight: 400 !important;
 }
