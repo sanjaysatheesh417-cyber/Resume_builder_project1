@@ -11,7 +11,7 @@
 
 /* Make main area transparent */
 .main, .block-container {
-    background-color: transparent !important;
+    background-color: #fffbe9 !important;
 }
 
 /* Sidebar base styling */
