@@ -742,6 +742,17 @@ sections = [
     ("Submission", "✅")]
 
 options = [f"{icon} {label}" for label, icon in sections]
+
+st.sidebar.markdown(
+    """
+    <div class="sidebar-title">
+        <h1>Resume Builder</h1>
+        <div class="sidebar-sub">Menu</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
 selected_section = st.sidebar.radio("Navigate", options, label_visibility="collapsed")
 
 st.title(selected_section.replace("🏠 ", "").replace("🧑 ", "").replace("📝 ", "")

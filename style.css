@@ -9,6 +9,52 @@
     width: 100vw;
 }
 
+/* Floaty main block */
+main[data-testid="stAppViewContainer"] > .main {
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 4px 32px 4px #20204a18, 0 1.5px 8px 1.5px #20204a13;
+    margin: 38px 0 32px 0;
+    padding: 32px 46px;
+    max-width: 1080px;
+    min-height: 78vh;
+    width: 90vw;
+    position: relative;
+}
+
+/* Optional: keep responsive shadow on smaller screens */
+@media (max-width: 850px) {
+    main[data-testid="stAppViewContainer"] > .main {
+        padding: 14px 5vw;
+        border-radius: 11px;
+    }
+}
+
+/* Sidebar Title Styling */
+section[data-testid="stSidebar"] .sidebar-title {
+    margin-bottom: 26px;
+    margin-top: 6px;
+    text-align: center;
+}
+
+section[data-testid="stSidebar"] .sidebar-title h1 {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-size: 1.35rem;
+    color: #23395d;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.1rem 0;
+    font-weight: 800;
+}
+
+section[data-testid="stSidebar"] .sidebar-title .sidebar-sub {
+    font-family: inherit;
+    font-size: 0.99rem;
+    color: #888ca3;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.07em;
+}
+
 /* Sidebar container - sharp corners */
 section[data-testid="stSidebar"] {
     background: #f9f9fb !important;
