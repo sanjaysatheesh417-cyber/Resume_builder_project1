@@ -9,7 +9,6 @@
     width: 100vw;
 }
 
-/* Main sidebar background and shape */
 section[data-testid="stSidebar"] {
     background: #f9f9fb !important;
     border-radius: 24px;
@@ -23,7 +22,6 @@ section[data-testid="stSidebar"] {
     max-width: 280px;
 }
 
-/* Sidebar label and group text settings */
 section[data-testid="stSidebar"] label,
 section[data-testid="stSidebar"] h2 {
     font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
@@ -33,19 +31,20 @@ section[data-testid="stSidebar"] h2 {
     letter-spacing: 0.01em;
 }
 
-/* Sidebar option - radio/active styling */
 section[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] {
     background: none !important;
     border-radius: 8px;
     margin-bottom: 2px;
     transition: background 0.14s, box-shadow 0.18s;
 }
+
 section[data-testid="stSidebar"] .st-eg .st-el {
     background: #f0f1f6 !important;
     border-radius: 10px !important;
     margin-bottom: 6px !important;
     transition: box-shadow 0.14s, background 0.14s;
 }
+
 section[data-testid="stSidebar"] .st-eg .st-el:hover,
 section[data-testid="stSidebar"] .st-eg .st-el:active,
 section[data-testid="stSidebar"] .st-eg .st-el:focus {
@@ -77,7 +76,6 @@ section[data-testid="stSidebar"] .st-am {
     letter-spacing: 0.01em;
     font-weight: 600;
 }
-
 
 /* Icon styling within sidebar label */
 section[data-testid="stSidebar"] .st-eg .st-el .css-1vu4bgo {
