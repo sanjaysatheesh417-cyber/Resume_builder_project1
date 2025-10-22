@@ -743,9 +743,15 @@ def ai_enhance_ui(field_key, field_label, height=150):
 
 # Streamlit UI
 st.title("Resume Builder")
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(["Personal Info","Summary","Academics","Professional Info","Achievements","Interests","Choose Template","Submission"])
+sections = [
+    "Personal Info", "Summary", "Academics", "Professional Info",
+    "Achievements", "Interests", "Choose Template", "Submission"
+]
 
-with tab1:
+selected_section = st.sidebar.radio("Navigate", sections)
+
+if selected_section == "Personal Info":
+    st.header("Personal Info")
     uploaded_photo = st.file_uploader("Upload profile photo", type=["jpg", "png", "jpeg"])
     profile_photo_bytes = None
     if uploaded_photo is not None:
@@ -754,25 +760,31 @@ with tab1:
     email = st.text_input("Email", value=st.session_state.get("email", ""), key="email")
     phone = st.text_input("Phone", value=st.session_state.get("phone", ""), key="phone")
 
-with tab2:
+elif selected_section == "Summary":
+    st.header("Summary")
     ai_enhance_ui("summary", "Summary", height=150)
 
-with tab3:
+elif selected_section == "Academics":
+    st.header("Academics")
     ai_enhance_ui("education", "Education", height=150)
     ai_enhance_ui("languages", "Languages", height=100)
 
-with tab4:
+elif selected_section == "Professional Info":
+    st.header("Professional Info")
     ai_enhance_ui("experience", "Experience", height=100)
     ai_enhance_ui("skills", "Skills", height=100)
 
-with tab5:
+elif selected_section == "Achievements":
+    st.header("Achievements")
     ai_enhance_ui("certificates", "Certificates", height=100)
     ai_enhance_ui("awards", "Awards", height=100)
 
-with tab6:
+elif selected_section == "Interests":
+    st.header("Interests")
     ai_enhance_ui("interests", "Interests", height=100)
 
-with tab7:
+elif selected_section == "Choose Template":
+    st.header("Choose Template")
     if "selected_template" not in st.session_state:
         st.session_state.selected_template = 1
 
@@ -800,7 +812,8 @@ with tab7:
     if template_images[sel_idx]:
         st.image(f"data:image/png;base64,{template_images[sel_idx]}", width="stretch")
 
-with tab8:
+elif selected_section == "Submission":
+    st.header("Submission")
     # Always render the Download button; validate on click
     if st.button("Generate PDF"):
         name = st.session_state.get("name", "")
