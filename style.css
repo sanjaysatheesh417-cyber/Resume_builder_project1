@@ -9,73 +9,84 @@
     width: 100vw;
 }
 
-/* Make main area transparent */
-.main, .block-container {
-    background-color: transparent !important;
+/* Main sidebar background and shape */
+section[data-testid="stSidebar"] {
+    background: #f9f9fb !important;
+    border-radius: 24px;
+    margin: 24px 0 24px 12px;
+    box-shadow: 0 2px 16px 0 #e2e5ee40;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    padding-left: 22px;
+    padding-right: 8px;
+    min-width: 236px;
+    max-width: 280px;
 }
 
-/* Sidebar base styling */
-.stSidebar {
-    background: #f6f7f9 !important;
-    padding-top: 30px;
-    border-top-right-radius: 32px;
-    border-bottom-right-radius: 32px;
-    box-shadow: 4px 0 32px #dbe2ef40;
-}
-
-/* Sidebar content spacing */
-.stSidebar .sidebar-content {
-    padding: 20px 16px;
-}
-
-/* Sidebar label and headings */
-.stSidebar label, .stSidebar h2 {
-    font-family: 'Inter', sans-serif;
-}
-
-/* Sidebar option card styling */
-.stSidebar .css-1v3fvcr {
-    background: #ffffff !important;
-    border-radius: 16px !important;
-    margin-bottom: 6px;
-    transition: box-shadow 0.13s, background 0.13s;
-    box-shadow: 0 2px 8px #e0e2e8a2;
-}
-
-/* Sidebar option hover/selected state */
-.stSidebar .css-1v3fvcr:hover,
-.stSidebar .css-1v3fvcr:active,
-.stSidebar .css-1v3fvcr:focus {
-    background: #e0f7fa !important;
-    box-shadow: 0 4px 16px #175ddc15;
-}
-
-/* Sidebar option text */
-.stSidebar .css-16idsys {
-    color: #001f54 !important;
+/* Sidebar label and group text settings */
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] h2 {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    color: #22223b;
+    font-size: 1rem;
     font-weight: 500;
+    letter-spacing: 0.01em;
 }
 
-/* Sidebar icon styling */
-.sidebar-icon {
-    width: 22px;
-    vertical-align: middle;
+/* Sidebar option - radio/active styling */
+section[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] {
+    background: none !important;
+    border-radius: 8px;
+    margin-bottom: 2px;
+    transition: background 0.14s, box-shadow 0.18s;
+}
+section[data-testid="stSidebar"] .st-eg .st-el {
+    background: #f0f1f6 !important;
+    border-radius: 10px !important;
+    margin-bottom: 6px !important;
+    transition: box-shadow 0.14s, background 0.14s;
+}
+section[data-testid="stSidebar"] .st-eg .st-el:hover,
+section[data-testid="stSidebar"] .st-eg .st-el:active,
+section[data-testid="stSidebar"] .st-eg .st-el:focus {
+    background: #e7eaf8 !important;
+    box-shadow: 0 0 0 1.5px #3a73ff33;
+}
+
+section[data-testid="stSidebar"] .st-eg .st-el input[type="radio"]:checked + div {
+    background: #e9f2fb !important;
+    border: 2.5px solid #2844fc;
+    color: #193287;
+}
+
+section[data-testid="stSidebar"] .st-eg .st-el label {
+    color: #22223b !important;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+section[data-testid="stSidebar"] .st-am {
+    font-size: 0.9rem;
+    color: #6c6e8e;
+    margin-top: 18px;
+    margin-bottom: 7px;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.01em;
+    font-weight: 600;
+}
+
+
+/* Icon styling within sidebar label */
+section[data-testid="stSidebar"] .st-eg .st-el .css-1vu4bgo {
     margin-right: 10px;
-    opacity: 0.76;
+    opacity: 0.84;
+    font-size: 1.26rem !important;
 }
 
-/* Profile styling in sidebar */
-.sidebar-profile {
-    margin-bottom: 32px;
-    text-align: center;
-}
-.sidebar-profile img {
-    border-radius: 50%;
-    width: 64px;
-    margin-bottom: 8px;
-    border: 2px solid #405de6;
-}
-.sidebar-profile h2 {
-    font-size: 1.2rem;
-    margin: 6px 0 0 0;
+/* Hide Streamlit default sidebar header if any */
+section[data-testid="stSidebar"] > div:first-child {
+    display: none !important;
 }
