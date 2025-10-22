@@ -9,23 +9,24 @@
     width: 100vw;
 }
 
+/* Sidebar container - sharp corners */
 section[data-testid="stSidebar"] {
     background: #f9f9fb !important;
-    border-radius: 24px;
-    margin: 24px 0 24px 12px;
+    border-radius: 0 !important;
+    margin: 0 0 0 0;
     box-shadow: 0 2px 16px 0 #e2e5ee40;
     padding: 32px 8px 32px 22px;
     min-width: 236px;
     max-width: 280px;
 }
 
-/* Make sidebar radio options look like selectboxes */
+/* Sidebar radio options look like cards/selectboxes */
 section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] label {
     position: relative;
     width: 100%;
     background: #f0f1f6 !important;
-    border-radius: 12px;
-    margin-bottom: 11px !important;
+    border-radius: 0 !important;
+    margin-bottom: 10px !important;
     min-height: 45px;
     display: flex;
     align-items: center;
@@ -51,32 +52,25 @@ section[data-testid="stSidebar"] .stRadio input[type="radio"] {
     opacity: 0;
 }
 
-/* Style option when selected */
+/* Selected (active) card style */
 section[data-testid="stSidebar"] .stRadio input[type="radio"]:checked + div {
     background: #dde9ff !important;
     border: 2px solid #3a73ff;
     color: #10215e;
+    border-radius: 0 !important;
 }
 
+/* Hover, focus, active state */
 section[data-testid="stSidebar"] .stRadio label:hover,
 section[data-testid="stSidebar"] .stRadio label:focus,
 section[data-testid="stSidebar"] .stRadio label:active {
     background: #e7eaf8 !important;
     box-shadow: 0 0 0 2.5px #3a73ff33;
+    border-radius: 0 !important;
 }
 
 section[data-testid="stSidebar"] .stRadio label span {
-    font-size: 1.22em;
+    font-size: 1.19em;
     opacity: 0.88;
-    margin-right: 13px;
-}
-
-/* Remove left indent/padding for the group */
-section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] {
-    padding-left: 0 !important;
-}
-
-section[data-testid="stSidebar"] .stRadio {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-right: 12px;
 }
