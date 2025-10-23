@@ -770,9 +770,9 @@ elif "Personal Info" in selected_section:
     profile_photo_bytes = None
     if uploaded_photo is not None:
         profile_photo_bytes = uploaded_photo.getvalue()
-    name = st.text_input("Name", value=st.session_state.get("name", ""), key="name")
-    email = st.text_input("Email", value=st.session_state.get("email", ""), key="email")
-    phone = st.text_input("Phone", value=st.session_state.get("phone", ""), key="phone")
+    st.session_state["name"] = st.text_input("Name", value=st.session_state["name"], key="name_in")
+    st.session_state["email"] = st.text_input("Email", value=st.session_state["email"], key="email_in")
+    st.session_state["phone"] = st.text_input("Phone", value=st.session_state["phone"], key="phone_in")
 
 elif "Summary" in selected_section:
     ai_enhance_ui("summary", "Summary", height=150)
@@ -826,9 +826,6 @@ elif "Submission" in selected_section:
         name = st.session_state["name"]
         email = st.session_state["email"]
         phone = st.session_state["phone"]
-        name = st.session_state.get("name", "")
-        email = st.session_state.get("email", "")
-        phone = st.session_state.get("phone", "")
         summary = st.session_state.get("summary", "")
         education = st.session_state.get("education", "")
         skills = st.session_state.get("skills", "")
