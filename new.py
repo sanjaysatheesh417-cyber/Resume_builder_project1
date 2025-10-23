@@ -669,7 +669,7 @@ def template_template8(c, name, email, phone, summary, education, skills, experi
 def generate_pdf_resume(name,email,phone,summary,education,skills,experience,languages,certificates,awards,interests,profile_photo_bytes,template):
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
-    template = f"template{selected_template+1}".lower() # Ensure lowercase for matching function names
+    template = f"template{selected_template+1}".lower()
     if template == "template1":
         template_template1(c,name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests,profile_photo_bytes)
     elif template == "template2":
@@ -696,7 +696,7 @@ def generate_pdf_resume(name,email,phone,summary,education,skills,experience,lan
 def ai_enhance_ui(field_key, field_label, height=150):
     input_val = st.session_state.get(field_key, "")
     input_val = st.text_area(field_label, value=input_val, height=height, key=f"{field_key}_input")
-    st.session_state[field_key] = input_val  # <-- sync textarea to session_state
+    st.session_state[field_key] = input_val 
 
     cand_key = f"{field_key}_ai_options"
 
