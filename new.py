@@ -37,7 +37,6 @@ def load_template_images():
         try:
             response = requests.get(url)
             if response.status_code == 200:
-                # Convert image bytes to base64
                 imgs.append(base64.b64encode(response.content).decode())
             else:
                 imgs.append(None)
