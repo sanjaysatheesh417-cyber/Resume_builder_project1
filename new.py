@@ -822,10 +822,10 @@ elif "Choose Template" in selected_section:
 
 elif "Submission" in selected_section:
     # Always render the Download button; validate on click
-    name = st.session_state["name"]
-    email = st.session_state["email"]
-    phone = st.session_state["phone"]
     if st.button("Generate PDF"):
+        name = st.session_state["name"]
+        email = st.session_state["email"]
+        phone = st.session_state["phone"]
         name = st.session_state.get("name", "")
         email = st.session_state.get("email", "")
         phone = st.session_state.get("phone", "")
