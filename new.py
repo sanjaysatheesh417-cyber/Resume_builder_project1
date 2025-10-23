@@ -75,9 +75,7 @@ def enhance_section(section_name, text):
     try:
         response = model.generate_content(prompt)
         raw = response.text.strip()
-        # Extract options that are either numbered or start a new line
         opts = re.findall(r'^\s*(?:\d+\.|-)\s*(.+)$', raw, re.MULTILINE)
-        # As a fallback, just take up to three most substantial non-empty lines
         if not opts:
             opts = [line.strip() for line in raw.split("\n") if line.strip()]
         opts = [o for o in opts if len(o) > 0][:3]
@@ -95,7 +93,6 @@ def wrap_text(text, width):
     return lines
 
 def template_template1(c, name, email, phone, summary, education, skills, experience, languages, certificates, awards, interests, profile_photo_bytes):
-    # Your existing template_template1 code here, unchanged
     width, height = A4
     margin_bottom = 50
     sidebar_x = 0
@@ -698,7 +695,6 @@ def generate_pdf_resume(name,email,phone,summary,education,skills,experience,lan
     return buffer
 
 def ai_enhance_ui(field_key, field_label, height=150):
-    # Display textarea, and always write new value into field_key in session_state
     input_val = st.session_state.get(field_key, "")
     input_val = st.text_area(field_label, value=input_val, height=height, key=f"{field_key}_input")
     st.session_state[field_key] = input_val  # <-- sync textarea to session_state
@@ -713,8 +709,6 @@ def ai_enhance_ui(field_key, field_label, height=150):
                 st.session_state[cand_key] = options
         else:
             st.warning("Please provide the summary you would like me to rewrite.")
-
-    # Radio for AI options and Apply Selection
     applied_key = f"{field_key}_applied"
     if cand_key in st.session_state:
         selected_option = st.radio(
@@ -726,8 +720,6 @@ def ai_enhance_ui(field_key, field_label, height=150):
             st.session_state[field_key] = selected_option
             st.session_state[applied_key] = True
             del st.session_state[cand_key]
-
-    # Success indicator (shows for one run after Apply)
     if st.session_state.get(f"{field_key}_applied", False):
         st.success(f"Changes applied to {field_label}.")
         del st.session_state[f"{field_key}_applied"]
@@ -806,12 +798,8 @@ elif "Choose Template" in selected_section:
             col.image(f"data:image/png;base64,{img_b64}", width="stretch")
         else:
             col.info(f"No preview for {name}")
-
-        # Select button toggles the index in session state
         if col.button(f"Select {name}", key=f"template_btn_{i}"):
             st.session_state['selected_template'] = i
-
-        # Indicate selection
         if st.session_state['selected_template'] == i:
             col.markdown(f"Selected: {name}")
 
@@ -821,7 +809,6 @@ elif "Choose Template" in selected_section:
         st.image(f"data:image/png;base64,{template_images[sel_idx]}", width="stretch")
 
 elif "Submission" in selected_section:
-    # Always render the Download button; validate on click
     if st.button("Generate PDF"):
         name = st.session_state["name"]
         email = st.session_state["email"]
