@@ -22,6 +22,10 @@ load_css("style.css")
 
 st.set_page_config(layout="wide")
 
+for key in ["name", "email", "phone"]:
+    if key not in st.session_state:
+        st.session_state[key] = ""
+
 @st.cache_resource
 def load_template_images():
     imgs = []
@@ -767,8 +771,8 @@ elif "Personal Info" in selected_section:
     if uploaded_photo is not None:
         profile_photo_bytes = uploaded_photo.getvalue()
     name = st.text_input("Name", value=st.session_state.get("name", ""), key="name")
-    email = st.text_input("Email", value=st.session_state.get("email", ""), key="email")
-    phone = st.text_input("Phone", value=st.session_state.get("phone", ""), key="phone")
+email = st.text_input("Email", value=st.session_state.get("email", ""), key="email")
+phone = st.text_input("Phone", value=st.session_state.get("phone", ""), key="phone")
 
 elif "Summary" in selected_section:
     ai_enhance_ui("summary", "Summary", height=150)
@@ -818,12 +822,12 @@ elif "Choose Template" in selected_section:
 
 elif "Submission" in selected_section:
     # Always render the Download button; validate on click
+    name = st.session_state["name"]
+    email = st.session_state["email"]
+    phone = st.session_state["phone"]
     if st.button("Generate PDF"):
-        st.session_state["name"]
         name = st.session_state.get("name", "")
-        st.session_state["email"]
         email = st.session_state.get("email", "")
-        st.session_state["phone"]
         phone = st.session_state.get("phone", "")
         summary = st.session_state.get("summary", "")
         education = st.session_state.get("education", "")
