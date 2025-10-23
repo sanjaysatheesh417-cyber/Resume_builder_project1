@@ -766,7 +766,6 @@ elif "Personal Info" in selected_section:
     profile_photo_bytes = None
     if uploaded_photo is not None:
         profile_photo_bytes = uploaded_photo.getvalue()
-
     name = st.text_input("Name", value=st.session_state.get("name", ""), key="name")
     st.session_state["name"] = name
     email = st.text_input("Email", value=st.session_state.get("email", ""), key="email")
