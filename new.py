@@ -764,8 +764,7 @@ st.title(selected_section.replace("🏠 ", "").replace("🧑 ", "").replace("�
 
 if "Dashboard" in selected_section:
     st.image("https://i.pinimg.com/736x/76/90/d0/7690d091b5e2b591d4439adff3f8d554.jpg")
-st.write("by Sanjay S")
-
+    st.write("by Sanjay S")
 elif "Personal Info" in selected_section:
     uploaded_photo = st.file_uploader("Upload profile photo", type=["jpg", "png", "jpeg"])
     profile_photo_bytes = None
